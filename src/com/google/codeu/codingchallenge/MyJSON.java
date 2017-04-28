@@ -13,59 +13,60 @@
 // limitations under the License.
 
 
+
 import java.util.*;
 
 final class MyJSON implements JSON {
 	private Map<String, String> stringValues;
 	private Map<String, JSON> objectValues;
 
-  public MyJSON() {
-	stringValues = new HashMap<String, String>();
-	objectValues = new HashMap<String, JSON>();
+	public MyJSON() {
+		stringValues = new HashMap<String, String>();
+		objectValues = new HashMap<String, JSON>();
 	}
-@Override
-  public JSON getObject(String name) {
-	  if(objectValues.containsKey(name)) {
-		  return objectValues.get(name);
-	  }
-	  return null;
-  }
+	@Override
+	public JSON getObject(String name) {
+		if(objectValues.containsKey(name)) {
+			return objectValues.get(name);
+		}
+		return null;
+	}
 
-  @Override
-  public JSON setObject(String name, JSON value) {
-	  if(objectValues.containsKey(name)) {
-		  objectValues.replace(name, value);
-	  } else {
-		  objectValues.put(name, value);
-	  }
-	  return this;
-  }
+	@Override
+	public JSON setObject(String name, JSON value) {
+		if(objectValues.containsKey(name)) {
+			objectValues.replace(name, value);
+		} else {
+			objectValues.put(name, value);
+		}
+		return this;
+	}
 
-  @Override
-  public String getString(String name) {
-	  if(stringValues.containsKey(name)) {
-		  return stringValues.get(name);
-	  }
-    return null;
-  }
+	@Override
+	public String getString(String name) {
+		if(stringValues.containsKey(name)) {
+			return stringValues.get(name);
+		}
+		return null;
+	}
 
-  @Override
-  public JSON setString(String name, String value) {
-	  if(stringValues.containsKey(name)) {
-		  stringValues.replace(name, value);
-	  } else {
-		  stringValues.put(name, value);
-	  }
-    return this;
-  }
+	@Override
+	public JSON setString(String name, String value) {
+		if(stringValues.containsKey(name)) {
+			stringValues.replace(name, value);
+		} else {
+			stringValues.put(name, value);
+		}
+		return this;
+	}
 
-  @Override
-  public void getObjects(Collection<String> names) {
-    names = objectValues.keySet();
-  }
+	@Override
+	public void getObjects(Collection<String> names) {
+		names = objectValues.keySet();
+	}
 
-  @Override
-  public void getStrings(Collection<String> names) {
-	names = stringValues.keySet();
-  }
+	@Override
+	public void getStrings(Collection<String> names) {
+		names = stringValues.keySet();
+	}
 }

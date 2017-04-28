@@ -19,34 +19,38 @@ import java.util.*;
 
 final class MyJSONParser implements JSONParser {
 
-  @Override
-  public JSON parse(String in) throws IOException {
-    in = in.substring(in.indexOf("{") + 1, in.lastIndexOf('}'));
-    String[] initialSeperate = in.split(":", 2);
-    MyJSON object;
-    if (initialSeperate[1].contains("{")) {
-    	object = new MyJSON();
-    	parseObject(initialSeperate[1], initialSeperate[0], object);
-    } else {
-    	object = new MyJSON();
-    	parseString(in, object);
-    }
-    return object;
-  }
+	public  JSON parse(String in) throws IOException {
+		in = in.substring(in.indexOf("{") + 1, in.lastIndexOf('}')).trim();
+		MyJSON object = new MyJSON();
+		if(in.length() == 0) {
+			return object;
+		}
+		String[] initialSeperate = in.split(":", 2);
+		if (initialSeperate[1].contains("{")) {
+			parseObject(initialSeperate[1], initialSeperate[0], object);
+		} else {
+			object = new MyJSON();
+			parseString(in, object);
+		}
+		return object;
+	}
 
-  public static void parseObject(String str, String key, MyJSON object) {
-	  str = str.replace("\"", "");
-	  MyJSON tempObject = new MyJSON();
-	  String [] seperate = str.split(",");
-	  for (int i = 0; i < seperate.length; i++) {
-		 parseString(seperate[i], tempObject);
-		 object.setObject(key, tempObject);
-	  }
-  }
+	private static void parseObject(String str, String key, MyJSON object) {
+		str = str.replace("\"", "");
+		key = key.replace("\"", "");
+		str = str.replace("{", "");
+		str = str.replace("}", "");
+		MyJSON tempObject = new MyJSON();
+		object.setObject(key, tempObject);
+		String [] seperate = str.split(",");
+		for (int i = 0; i < seperate.length; i++) {
+			parseString(seperate[i], tempObject);
+		}
+	}
 
-  public static void parseString(String str, MyJSON object) {
-	  str = str.replace("\"", "");
-	  String [] seperate = str.split(":");
-	  object.setString(seperate[0], seperate[1]);
-  }
+	private static void parseString(String str, MyJSON object) {
+		str = str.replace("\"", "").trim();
+		String [] seperate = str.split(":");
+		object.setString(seperate[0], seperate[1]);
+	}
 }
