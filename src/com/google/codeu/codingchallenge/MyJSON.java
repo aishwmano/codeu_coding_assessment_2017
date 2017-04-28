@@ -12,43 +12,60 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.codeu.codingchallenge;
 
-import java.util.Collection;
+import java.util.*;
 
 final class MyJSON implements JSON {
+	private Map<String, String> stringValues;
+	private Map<String, JSON> objectValues;
 
-  @Override
+  public MyJSON() {
+	stringValues = new HashMap<String, String>();
+	objectValues = new HashMap<String, JSON>();
+	}
+@Override
   public JSON getObject(String name) {
-    // TODO: implement this
-    return null;
+	  if(objectValues.containsKey(name)) {
+		  return objectValues.get(name);
+	  }
+	  return null;
   }
 
   @Override
   public JSON setObject(String name, JSON value) {
-    // TODO: implement this
-    return this;
+	  if(objectValues.containsKey(name)) {
+		  objectValues.replace(name, value);
+	  } else {
+		  objectValues.put(name, value);
+	  }
+	  return this;
   }
 
   @Override
   public String getString(String name) {
-    // TODO: implement this
+	  if(stringValues.containsKey(name)) {
+		  return stringValues.get(name);
+	  }
     return null;
   }
 
   @Override
   public JSON setString(String name, String value) {
-    // TODO: implement this
+	  if(stringValues.containsKey(name)) {
+		  stringValues.replace(name, value);
+	  } else {
+		  stringValues.put(name, value);
+	  }
     return this;
   }
 
   @Override
   public void getObjects(Collection<String> names) {
-    // TODO: implement this
+    names = objectValues.keySet();
   }
 
   @Override
   public void getStrings(Collection<String> names) {
-    // TODO: implement this
+	names = stringValues.keySet();
   }
 }

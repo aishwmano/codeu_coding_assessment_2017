@@ -12,15 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.codeu.codingchallenge;
 
 import java.io.IOException;
+
+import java.util.*;
 
 final class MyJSONParser implements JSONParser {
 
   @Override
   public JSON parse(String in) throws IOException {
-    // TODO: implement this
-    return new MyJSON();
+    in = in.substring(in.indexOf("{") + 1, in.lastIndexOf('}'));
+    String[] initialSeperate = in.split(":", 2);
+    MyJSON object;
+    if (initialSeperate[1].contains("{")) {
+    	object = new MyJSON();
+    	parseObject(initialSeperate[1], initialSeperate[0], object);
+    } else {
+    	object = new MyJSON();
+    	parseString(in, object);
+    }
+    return object;
+  }
+
+  public static void parseObject(String str, String key, MyJSON object) {
+	  str = str.replace("\"", "");
+	  MyJSON tempObject = new MyJSON();
+	  String [] seperate = str.split(",");
+	  for (int i = 0; i < seperate.length; i++) {
+		 parseString(seperate[i], tempObject);
+		 object.setObject(key, tempObject);
+	  }
+  }
+
+  public static void parseString(String str, MyJSON object) {
+	  str = str.replace("\"", "");
+	  String [] seperate = str.split(":");
+	  object.setString(seperate[0], seperate[1]);
   }
 }
